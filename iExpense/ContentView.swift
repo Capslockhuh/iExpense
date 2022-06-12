@@ -49,7 +49,7 @@ struct ExpenseItem: Identifiable, Codable {
 class Expenses: ObservableObject {
     @Published var items = [ExpenseItem]() {
         didSet {
-            if let encoded try? JSONEncoder().encode(items) {
+            if let encoded = try? JSONEncoder().encode(items) {
                 UserDefaults.standard.set(encoded, forKey: "Items")
             }
         }
@@ -57,15 +57,15 @@ class Expenses: ObservableObject {
     
     init() {
         if let savedItems = UserDefaults.standard.data(forKey: "Items") {
-            if let decodedItems = try? JSONDecoder.decode([ExpenseItem].self, from: savedItems) {
-                items - decodedItems
+            if let decodedItems = try? JSONDecoder().decode([ExpenseItem].self, from: savedItems) {
+                items = decodedItems
                 return
             }
         }
+
         items = []
     }
 }
-
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
