@@ -28,7 +28,14 @@ struct ContentView: View {
                         }
                         
                         Spacer()
-                        Text(item.amount, format: .currency(code: Locale.current.currencyCode ?? "USD"))
+                        //Text(item.amount, format: .currency(code: Locale.current.currencyCode ?? "USD"))
+                        if item.amount <= 10 {
+                            Text(item.amount, format: .currency(code: Locale.current.currencyCode ?? "USD"))
+                                .font(.subheadline)
+                        } else if item.amount > 100 {
+                            Text(item.amount, format: .currency(code: Locale.current.currencyCode ?? "USD"))
+                                .font(.headline)
+                        }
                     }
                 }
                 .onDelete(perform: removeItems)
@@ -63,7 +70,6 @@ class Expenses: ObservableObject {
             }
         }
     }
-    
     init() {
         if let savedItems = UserDefaults.standard.data(forKey: "Items") {
             if let decodedItems = try? JSONDecoder().decode([ExpenseItem].self, from: savedItems) {
