@@ -26,6 +26,9 @@ struct ContentView: View {
                                 .font(.headline)
                             Text(item.type)
                         }
+                        .accessibilityElement(children: .ignore)
+                        .accessibilityLabel("\(item.name), \(item.amount)")
+                        .accessibilityHint(item.type)
                         
                         Spacer()
                         //Text(item.amount, format: .currency(code: Locale.current.currencyCode ?? "USD"))
